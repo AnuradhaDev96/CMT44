@@ -1,4 +1,5 @@
 package com.calc.cs;
+//Developer | A.S.H.Sirirbaddana |
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -6,16 +7,14 @@ import java.util.regex.*;
 
 public class csCalculator {	
 	
-	private String str = "5 > 9 K >> 0 >> + long Time (String wine ); wine ";
-	private int lengthofCodeStatement = str.length();	
+	private String str;
 	private List<String> identifiedTokens = new ArrayList<>();
 	
-	//char characterList[] = new char[] {'+', '-', '*', '/', '%', '!', '=', ',', '.', '>', '<'};
 	//Array for single characters
 	private String characterList[] = new String[] {" + ", " - ", " * ", " / ", " % ", " ! ", " = ", ",", ".", " > ", " < "};
 
 	//array for key words
-	private String keyWordArray[] = new String[] {"void ", "double ", "int ", "float ", "string ", "printf(", "println ", "cout <<", "cin >>", "if("};
+	private String keyWordArray[] = new String[] {"void ", "double ", "int ", "float ", "string ", "printf(", "println ", "cout <<", "cin >>", "if(", "endl", "\n", "etc."};
 	
 	//array for dal characters
 	private String dualdArray[] = new String[] {"==",  "!=", ">=", " <= ", "&& ", "||", ">>"};
@@ -24,12 +23,12 @@ public class csCalculator {
 	private String genericArray[] = new String[] {"class", "void", "int", "long", "double", "float", "char", "String"};	
 	
 	
-	public void calcCsOfStatement(String codeStatement) {
-		this.str = codeStatement;
-//		Pattern p = Pattern.compile("");//. represents single character  
-//		Matcher m = p.matcher(codeStatement);  
-//		boolean b = m.matches();  
-//		System.out.println(Pattern.matches("[amn]+", "aadd"));	
+	public List<String> calcCsOfStatement(String codeStatement) {
+		this.str = codeStatement;	
+		
+		if (!(this.identifiedTokens.isEmpty())) {
+			this.identifiedTokens.clear();
+		}
 		
 		//Detect single characters
 		for  (int i = 0; i < this.characterList.length; i++) {
@@ -49,23 +48,20 @@ public class csCalculator {
 		}
 		
 		//Detect class names, methods, variables and arrays
-		for  (int m = 0; m <genericArray.length; m++) {
-			this.detectProgrammerDefinedWords(genericArray[m]);
-		}
+//		for  (int m = 0; m <genericArray.length; m++) {
+//			this.detectProgrammerDefinedWords(genericArray[m]);
+//		}
 		
+		//Detect previously detected names, methods, variables and arrays
 //		for(String obj:ItemsDetected.items)  {
-//		    System.out.println(obj);  
-//		 } 
-		
-		System.out.println(ItemsDetected.items);
-		System.out.println(this.identifiedTokens);
-		 
+//			detectItemsDetectedInLine(obj);  
+//		} 		
+		return this.identifiedTokens;		 
 	}
 	
 	public void detectSingleCharacters(String singleCharacter) {
 		int indexRecorder = -1;
-		int chk = 0;
-		
+		int chk = 0;		
 		do  {
 			chk =indexRecorder + 1;
 			indexRecorder = this.str.indexOf(singleCharacter, chk);
@@ -79,12 +75,9 @@ public class csCalculator {
 	
 	public void detectDualCharacters(String dualCharacter) {
 		int indexRecorder = 0;
-		int chk = 0;
-		
+		int chk = 0;		
 		do  {
-//			chk =indexRecorder + 2;
-			indexRecorder = this.str.indexOf(dualCharacter, chk);
-			
+			indexRecorder = this.str.indexOf(dualCharacter, chk);			
 			if (indexRecorder != -1) {
 				this.identifiedTokens.add(dualCharacter);
 			}
@@ -96,13 +89,9 @@ public class csCalculator {
 	
 	public void detectProgrammerDefinedWords(String ProgrammerDefinedWord) {		
 		/* ERROR:
-		 * THIS METHOD STILL DOES NOT DETECT 
-		 * SAME GENERIC WORD FOR SEVERAL TIMES*/
+		 * THIS METHOD CANNOT REMOVE BRACKETS, COMMAS FROM NAMES*/
 		int indexRecorder = 0;
-		int chk = 0;
-		
-		
-		
+		int chk = 0;		
 		int SpaceAfterGeneric = 0;
 		String DetectedName;
 		
@@ -116,39 +105,30 @@ public class csCalculator {
 						DetectedName = (this.str.substring(SpaceAfterGeneric + 1, this.str.indexOf(" ", SpaceAfterGeneric + 1)));
 						ItemsDetected.items.add(DetectedName);
 						this.identifiedTokens.add(DetectedName);
-					}
-					chk = indexRecorder + 2;
-					
+						chk = indexRecorder + 1;
+					}					
 				} while (indexRecorder != -1);				
 			}				
 	}
 	
-//	public void detectItemsDetectedInLine(String PreviousItem) {		
-//		/* ERROR:
-//		 * THIS METHOD STILL DOES NOT DETECT 
-//		 * SAME GENERIC WORD FOR SEVERAL TIMES*/
-//		
-////		int SpaceAfterGeneric = 0;
-////		String DetectedName;
-//		
-//			if (this.str.contains(PreviousItem)) {
-//				
-//				SpaceAfterGeneric = this.str.indexOf(" ", this.str.indexOf(ProgrammerDefinedWord));				
-//				DetectedName = (this.str.substring(SpaceAfterGeneric + 1, this.str.indexOf(" ", SpaceAfterGeneric + 1)));
-//				ItemsDetected.items.add(DetectedName);
-//				
-//				do  {
-//					chk =indexRecorder + 1;
-//					indexRecorder = this.str.indexOf(singleCharacter, chk);
-//					
-//					if (indexRecorder != -1) {
-//						this.identifiedTokens.add(singleCharacter);
-//					}
-//					
-//				} while (indexRecorder != -1);
-//			}
-//				
-//	}
-	
+	public void detectItemsDetectedInLine(String PreviousItem) {		
+		/* ERROR:
+		 * THIS METHOD CANNOT REMOVE BRACKETS, COMMAS FROM NAMES*/
+		
+		int indexRecorder = 0;
+		int chk = 0;
+		
+			if (this.str.contains(PreviousItem)) {				
+				do  {
+					indexRecorder = this.str.indexOf(PreviousItem, chk);
+					
+					if (indexRecorder != -1) {
+						this.identifiedTokens.add(PreviousItem);
+					}
+					chk = indexRecorder + 1;
+					
+				} while (indexRecorder != -1);
+			}				
+	}	
 	
 }
