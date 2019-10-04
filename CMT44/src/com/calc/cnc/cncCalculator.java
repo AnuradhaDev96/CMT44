@@ -80,8 +80,7 @@ public class cncCalculator {
 		BlockSets.isForFound = false;
 		BlockSets.isWhileFound = false;
 		BlockSets.isDoFound = false;
-//		BlockSets.blockBeginLine = 0;
-//		BlockSets.blockEndLine = 0;
+
 	}
 	
 }
