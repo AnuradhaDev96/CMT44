@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockSets {
+	//create variable. we can direct use that in another class
 	public static List<String> openCurlyBraArray= new ArrayList<>();
 	public static List<String> closeCurlyBraArray= new ArrayList<>();
 	
