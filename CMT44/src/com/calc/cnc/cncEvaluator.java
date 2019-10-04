@@ -56,12 +56,12 @@ public class cncEvaluator {
 			//
 			if (BlockSets.firstNestStatus == "OPENED" && 
 					BlockSets.secondNestStatus == "CLOSED") {
-					BlockSets.firstNestStatus = "CLOSED";//close THE first BLOCK
+					BlockSets.firstNestStatus = "CLOSED";//CLOSE THE first BLOCK
 					BlockSets.cncMark = 0;
 					IsAssign = "DontAssignVal";
 			}else if(BlockSets.firstNestStatus == "OPENED" && 
 					BlockSets.secondNestStatus == "OPENED") {
-					BlockSets.secondNestStatus = "CLOSED";//close THE SECOND BLOCK
+					BlockSets.secondNestStatus = "CLOSED";//CLOSE THE SECOND BLOCK
 					BlockSets.cncMark = 1;
 					IsAssign = "DontAssignVal";
 			}
